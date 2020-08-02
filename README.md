@@ -2,7 +2,7 @@
 Header only external naked function wrapper/caller (uses naked functions instead of byte arrays)
 
 Example stub function: (Writes return to end of shell)
-```
+```c
 inline __declspec(naked) void __stdcall get_player()
 {
 	{
