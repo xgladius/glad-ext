@@ -46,5 +46,5 @@ This does not contain an arg wrapper for shellcode, wouldn't be to hard to imple
 example usage:
 ```c
 xg_process w101(_T("WizardGraphicalClient.exe"));
-printf("Player object is %x\n", w101->call_function<int>(get_player));
+printf("Player object is %x\n", w101.call_function<int>(get_player));
 ```
