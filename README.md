@@ -47,5 +47,4 @@ example usage:
 ```c
 xg_process w101(_T("WizardGraphicalClient.exe"));
 printf("Player object is %x\n", w101->call_function<int>(get_player));
-delete x;
 ```
