@@ -1,6 +1,8 @@
 # glad-ext
 External shellcode library that uses naked function wrappers to generate a callable function sub, tested to compile and run on x86 msvc
+
 **Aka, a really really easy way to call functions externally**
+
 (currently only supports x86 architecture and cdecl and stdcall calling conventions)
 
 Incredibly simple to use (currently void return stubs aren't supported, pass as int):
