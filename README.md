@@ -1,50 +1,44 @@
 # glad-ext
-Header only external naked function wrapper/caller (uses naked functions instead of byte arrays)
+External shellcode library that uses naked function wrappers to generate a callable function sub, tested to compile and run on x86 msvc
+**Aka, a really really easy way to call functions externally**
+(currently only supports x86 architecture and cdecl and stdcall calling conventions)
 
-Example stub function: (Writes return to end of shell)
+Incredibly simple to use:
 ```c
-inline __declspec(naked) void __stdcall get_player()
-{
-	{
-		auto ret = 0;
-		__asm {
-			push ebp
-			mov ebp, esp
-			sub esp, __LOCAL_SIZE
-		}
-		
-		__asm {
-			lea eax, [ret]
-			push eax
-			mov eax, 0xE2DF50
-			call eax
-			add esp, 4
-		}
-
-		DWORD dw_address;
-		__asm {
-			mov dw_address, NAKED_FUNCTION_WRITE_ADDR
-		}
-		*reinterpret_cast<int*>(dw_address) = ret;
-
-		__asm {
-			mov esp, ebp
-			pop ebp
-			ret
-		}
-		__asm {
-			nop
-			nop
-			nop
-		}
-	}
-}
+auto roblox = std::make_unique<xg_process>(L"RobloxPlayerBeta.exe");
+auto newthread = roblox->create_sub<uintptr_t>(roblox->copy_fn(roblox->format(0x11E05B0)));
+const auto state = newthread(global);
 ```
 
-This does not contain an arg wrapper for shellcode, wouldn't be to hard to implement.
+Breakdown:
 
-example usage:
 ```c
-xg_process w101(_T("WizardGraphicalClient.exe"));
-printf("Player object is %x\n", w101.call_function<int>(get_player));
+xg_process(const TCHAR*);
 ```
+Constructor of xg_process accepts the name of the process to be loaded **xg_process needs to be an xg_process pointer (xg_process*) or function calling won't work**
+
+```c
+uintptr_t xg_process->format(const uintptr_t) const;
+```
+Rebases an address to the selected processes module base (assuming ida base is at 0x400000, custom base on todo list)
+
+```c
+uintptr_t xg_process->copy_fn(uintptr_t);
+```
+Copies a function from the external process to a newly allocated section of memory and removes Roblox's return check
+
+```c
+template<class RetType>
+g_func<RetType> xg_process->create_sub<RetType>(uintptr_t);
+```
+Creates a simple wrapper class that overloads operator () to be able to call external functions with ease 
+
+```c
+g_func<RetType>(args);
+```
+Dynamically creates shellcode based on the number of args, and argument types. **Currently only supports bool, uintptr_t, const char*, and int**
+
+To reiterate,
+**Only argument types bool, uintptr_t, const char*, and int are currently supported for function calling**
+**xg_process must be a xg_process***
+**Currently only supports __cdecl and __stdcall calling conventions**
