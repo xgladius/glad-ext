@@ -48,6 +48,7 @@ g_func<RetType>(args);
 Dynamically creates shellcode based on the number of args, and argument types. **Currently only supports bool, uintptr_t, const char*, and int**
 
 To reiterate,
+
 **Only argument types bool, uintptr_t, const char*, and int are currently supported for function calling**
 
 **xg_process must be a xg_process***
