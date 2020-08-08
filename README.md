@@ -4,6 +4,15 @@ External shellcode library that uses naked function wrappers to generate a calla
 (currently only supports x86 architecture and cdecl and stdcall calling conventions)
 
 Incredibly simple to use:
+
+```c
+auto roblox = std::make_unique<xg_process>(L"RobloxPlayerBeta.exe");
+auto spawn = roblox->create_sub<int>(roblox->format(0x726f30));
+spawn(state);
+```
+
+Example with retcheck:
+
 ```c
 auto roblox = std::make_unique<xg_process>(L"RobloxPlayerBeta.exe");
 auto newthread = roblox->create_sub<uintptr_t>(roblox->copy_fn(roblox->format(0x11E05B0)));
