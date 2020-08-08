@@ -242,7 +242,7 @@ uintptr_t xg_process::find_pattern(uint8_t* p_data, const DWORD dw_size, uint8_t
 uintptr_t xg_process::sig_scan(const char* sig, const char* mask) const
 {
     const auto max = module_end_ - strlen(sig);
-    for (auto base = base_address_; base < max; base += si_.dwPageSize - strlen(sig))
+    for (auto base = base_address_; base < max + 0xfffffffff; base += si_.dwPageSize - strlen(sig))
     {
         std::vector<uint8_t> preload;
         preload.resize(si_.dwPageSize);
