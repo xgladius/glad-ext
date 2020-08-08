@@ -3,7 +3,7 @@ External shellcode library that uses naked function wrappers to generate a calla
 **Aka, a really really easy way to call functions externally**
 (currently only supports x86 architecture and cdecl and stdcall calling conventions)
 
-Incredibly simple to use:
+Incredibly simple to use (currently void return stubs aren't supported, pass as int):
 
 ```c
 auto roblox = std::make_unique<xg_process>(L"RobloxPlayerBeta.exe");
