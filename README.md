@@ -50,6 +50,6 @@ Dynamically creates shellcode based on the number of args, and argument types. *
 To reiterate,
 **Only argument types bool, uintptr_t, const char*, and int are currently supported for function calling**
 
-**xg_process must be a xg_process**
+**xg_process must be a xg_process***
 
 **Currently only supports __cdecl and __stdcall calling conventions**
