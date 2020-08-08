@@ -57,3 +57,31 @@ To reiterate,
 **xg_process must be a xg_process***
 
 **Currently only supports __cdecl and __stdcall calling conventions**
+
+
+Deserialize example:
+```c
+auto roblox = std::make_unique<xg_process>(L"RobloxPlayerBeta.exe");
+
+auto newthread = roblox->create_sub<uintptr_t>(roblox->copy_fn(roblox->format(0x11E05B0)));
+
+auto spawn = roblox->create_sub<int>(roblox->format(0x726f30));
+
+auto deserialize_helper = roblox->create_sub<bool>(roblox->format(0x11EB210));
+
+bool deserialize(const uintptr_t rl, const char* chunkname, const char* bytecode, const size_t sz)
+{
+	const auto bytecode_alloc = roblox->alloc_string(bytecode, sz); // needed because currently doesn't accept const char* with non strlen size
+	return deserialize_helper(rl, chunkname, reinterpret_cast<uintptr_t>(bytecode_alloc), sz);
+}
+
+int main()
+{
+  const auto script_context = roblox->sig_scan("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xC8\x15\x00\x00", "xxxxxxxxxxxxxxxx") - 0x10;
+  const auto state = script_context + 56 * 0 + 164 + roblox->read<uintptr_t>(script_context + 56 * 0 + 164);
+  const auto new_thread = newthread(state);
+  deserialize(new_thread, "test123", bytecode, bytecode_size);
+  spawn(new_thread);
+  return 1;
+}
+```
