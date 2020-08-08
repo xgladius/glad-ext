@@ -77,11 +77,11 @@ bool deserialize(const uintptr_t rl, const char* chunkname, const char* bytecode
 
 int main()
 {
-  const auto script_context = roblox->sig_scan("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xC8\x15\x00\x00", "xxxxxxxxxxxxxxxx") - 0x10;
-  const auto state = script_context + 56 * 0 + 164 + roblox->read<uintptr_t>(script_context + 56 * 0 + 164);
-  const auto new_thread = newthread(state);
-  deserialize(new_thread, "test123", bytecode, bytecode_size);
-  spawn(new_thread);
-  return 1;
+	const auto script_context = roblox->sig_scan("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xC8\x15\x00\x00", "xxxxxxxxxxxxxxxx") - 0x10;
+	const auto state = script_context + 56 * 0 + 164 + roblox->read<uintptr_t>(script_context + 56 * 0 + 164);
+	const auto new_thread = newthread(state);
+	deserialize(new_thread, "test123", bytecode, bytecode_size);
+	spawn(new_thread);
+	return 1;
 }
 ```
