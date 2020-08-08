@@ -45,7 +45,8 @@ Creates a simple wrapper class that overloads operator () to be able to call ext
 ```c
 g_func<RetType>(args);
 ```
-Dynamically creates shellcode based on the number of args, and argument types. **Currently only supports bool, uintptr_t, const char*, and int**
+Dynamically creates shellcode based on the number of args, and argument types. 
+**Currently only supports bool, uintptr_t, const char*, and int**
 
 To reiterate,
 
