@@ -9,7 +9,7 @@ Incredibly simple to use (currently void return stubs aren't supported, pass as 
 
 ```c
 auto roblox = std::make_unique<xg_process>(L"RobloxPlayerBeta.exe");
-auto spawn = roblox->create_sub<int>(roblox->format(0x726f30));
+auto spawn = roblox->create_sub<int>(roblox->format(0x72b6e0));
 spawn(state);
 ```
 
@@ -17,7 +17,7 @@ Example with retcheck:
 
 ```c
 auto roblox = std::make_unique<xg_process>(L"RobloxPlayerBeta.exe");
-auto newthread = roblox->create_sub<uintptr_t>(roblox->copy_fn(roblox->format(0x11E05B0)));
+auto newthread = roblox->create_sub<uintptr_t>(roblox->copy_fn(roblox->format(0x11f1470)));
 const auto state = newthread(global);
 ```
 
@@ -63,11 +63,11 @@ Deserialize example:
 ```c
 auto roblox = std::make_unique<xg_process>(L"RobloxPlayerBeta.exe");
 
-auto newthread = roblox->create_sub<uintptr_t>(roblox->copy_fn(roblox->format(0x11E05B0)));
+auto newthread = roblox->create_sub<uintptr_t>(roblox->copy_fn(roblox->format(0x11f1470)));
 
-auto spawn = roblox->create_sub<int>(roblox->format(0x726f30));
+auto spawn = roblox->create_sub<int>(roblox->format(0x72b6e0));
 
-auto deserialize_helper = roblox->create_sub<bool>(roblox->format(0x11EB210));
+auto deserialize_helper = roblox->create_sub<bool>(roblox->format(0x11fc1f0));
 
 bool deserialize(const uintptr_t rl, const char* chunkname, const char* bytecode, const size_t sz)
 {
@@ -78,7 +78,7 @@ bool deserialize(const uintptr_t rl, const char* chunkname, const char* bytecode
 int main()
 {
 	const auto script_context = roblox->sig_scan("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xC8\x15\x00\x00", "xxxxxxxxxxxxxxxx") - 0x10;
-	const auto state = script_context + 56 * 0 + 164 + roblox->read<uintptr_t>(script_context + 56 * 0 + 164);
+	const auto state = script_context + 164 + 56 * 0 - roblox->read<uintptr_t>(script_context + 56 + 56 * 0);
 	const auto new_thread = newthread(state);
 	deserialize(new_thread, "test123", bytecode, bytecode_size);
 	spawn(new_thread);
